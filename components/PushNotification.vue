@@ -28,7 +28,7 @@ onMounted(() => {
 });
 // Handle Notification Click
 onClick(() => {
-  window.open("http://localhost:3000/api/habits", "_blank"); // Change to your actual website
+  window.open("http://localhost:3000/reminders", "_blank"); // Change to your actual website
 });
 onUnmounted(() => {
   // Clear interval when component is destroyed

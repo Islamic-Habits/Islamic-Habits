@@ -6,7 +6,15 @@ export default defineEventHandler(async (event) => {
 
   const { data, error } = await supabase
     .from('habits')
-    .select('data')
+    .select()
 
-  if (data) return data
+  let habits = data.map(item => ({
+    ...item.data,
+    ...{ id: item.id }
+  }));
+  console.log(data)
+  console.log(habits)
+  habits.id = data.id
+
+  if (data) return habits
 })

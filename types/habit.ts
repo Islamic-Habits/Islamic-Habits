@@ -8,7 +8,7 @@ export interface Habit {
   id: number,
   title: string
   type: HabitType,
-  quantity: undefined
+  goal: undefined
   period: HabitPeriod,
   users: string[],
   completed: boolean

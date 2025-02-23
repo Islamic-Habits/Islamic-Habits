@@ -21,8 +21,33 @@ export default defineEventHandler(async (event) => {
     })
     .select()
 
+  console.log('data')
   console.log(data)
-  console.log(error)
 
-  return { data }
+  console.log('body')
+  console.log(body)
+
+  const emptyLog = body.users.map(email => ({
+    user_email: email,
+    isCompleted: false
+  }))
+
+  let habitId = data[0].id
+  console.log(habitId)
+  const { logs, err } = await supabase
+    .from('habitlogs')
+    .insert({
+      data: {
+        habit_id: habitId,
+        logs: emptyLog
+      }
+    })
+    .select()
+  console.log(logs)
+
+
+  //console.log(data)
+  //console.log(error)
+
+  return data[0]
 })

@@ -18,4 +18,8 @@ export default defineNuxtConfig({
       cookieRedirect: true
     }
   },
+  colorMode: {
+    preference: 'light'
+  },
+  css: ['~/assets/css/global.css']
 })

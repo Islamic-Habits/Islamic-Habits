@@ -10,12 +10,13 @@ export const useHabitsStore = defineStore('habits', () => {
   }
 
   const addHabit = async (habit: Object) => {
+    console.log(habit)
     const newHabit: Habit = await $fetch('/api/habits', {
       method: 'post',
       body: habit
     })
 
-    habits.value.push(newHabit)
+    habits.value.push(newHabit.data)
   }
 
   return { habits, getHabits, addHabit }

@@ -8,5 +8,5 @@ export default defineEventHandler(async (event) => {
     .from('habits')
     .select('data')
 
-  if (data) return { data }
+  if (data) return data
 })

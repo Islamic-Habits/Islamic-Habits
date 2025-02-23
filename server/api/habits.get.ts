@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
   const { data, error } = await supabase
     .from('habits')
-    .select()
+    .select('data')
 
   if (data) return data
 })

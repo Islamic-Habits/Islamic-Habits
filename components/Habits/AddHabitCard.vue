@@ -32,7 +32,7 @@ const habitDetails = reactive({
 })
 
 const onSubmit = async (event: FormSubmitEvent<Schema>) => {
-  habitsStore.addHabit(habitDetails)
+  habitsStore.addHabit(habitDetails)  
   console.log('hello')
 
   openModal.value = false

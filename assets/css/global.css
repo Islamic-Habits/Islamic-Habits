@@ -1,0 +1,13 @@
+/* Override Nuxt UI Input Styles */
+.u-input {
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #d1d5db !important;
+  /* Light gray border */
+}
+
+.dark .u-input {
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #d1d5db !important;
+}

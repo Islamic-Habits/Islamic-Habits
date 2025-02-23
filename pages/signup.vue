@@ -44,9 +44,9 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) => {
 </script>
 
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-gray-800">
+  <div class="flex items-center justify-center min-h-screen">
     <UForm :schema="schema" :state="userInfo" @submit="onSubmit"
-      class="flex flex-col items-center w-full max-w-sm p-8 rounded bg-gray-900 shadow-md">
+      class="flex flex-col items-center w-full max-w-sm p-8 rounded shadow-md">
       <h1>Sign Up</h1>
 
       <UFormGroup label="First Name" name="firstname" class="w-full">

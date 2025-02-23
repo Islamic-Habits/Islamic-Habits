@@ -6,7 +6,7 @@ import { type HabitType, HabitTypes, type HabitPeriod, HabitPeriods } from '~/ty
 import { UInput } from '#components'
 
 const habitsStore = useHabitsStore()
-const openModal = ref(false)
+const modelValue = ref(false)
 
 const schema = z.object({
   title: z.string(),
@@ -32,10 +32,11 @@ const habitDetails = reactive({
 })
 
 const onSubmit = async (event: FormSubmitEvent<Schema>) => {
-  habitsStore.addHabit(habitDetails)  
+  habitsStore.addHabit(habitDetails)
   console.log('hello')
 
-  openModal.value = false
+  modelValue.value = false
+
   // reset modal
   habitDetails.title = undefined
   habitDetails.type = undefined
@@ -43,37 +44,53 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) => {
   habitDetails.goal = undefined
   habitDetails.users = undefined
 }
+
+let modalUi = {
+  background: 'bg:white dark:bg-white rounded-lg shadow-md p-6 mb-8'
+}
+
 </script>
 
 <template>
-  <UButton @click='openModal = true' color="white" class="w-full h-36 flex items-center justify-center">
-    <UIcon name="i-material-symbols:add-2-rounded" class="w-5 h-5" />
+  <UButton @click='modelValue = true'
+    class="w-full py-3 px-4 !bg-emerald-600 !text-white hover:!bg-emerald-700 transition-colors flex items-center justify-center space-x-2 mb-4"
+    icon="i-material-symbols:add-2-rounded">
+    <span class="text-white">
+      Create new habit
+    </span>
   </UButton>
 
-  <UModal v-model="openModal">
-    <h1>Add Project</h1>
+  <UModal v-model="modelValue" :ui="modalUi"
+    class="max-w-2xl mx-auto !bg-white rounded-lg shadow-md p-6 mb-8 flex justify-items  items-center">
+    <div class="flex justify-center">
+      <h2 class="text-xl font-semibold text-emerald-600 mb-4">Create new Habit</h2>
+    </div>
     <UForm :schema="schema" :state="habitDetails" @submit="onSubmit">
-      <UFormGroup label="Habit Title" name="title" class="w-full">
-        <UInput v-model="habitDetails.title" />
+
+      <UFormGroup label="Habit Title" name="title" class="w-full mb-2">
+        <UInput v-model="habitDetails.title" placeholder="e.g., Daily Dhikr" />
       </UFormGroup>
 
-      <UFormGroup label="Type" name='type' class="w-full">
+      <UFormGroup label="Type" name='type' class="w-full mb-2">
         <UInputMenu v-model="habitDetails.type" :options="HabitTypes" placeholder="Select a type" />
       </UFormGroup>
 
-      <UFormGroup label="Goal" name='goal' class="w-full">
-        <UInput v-model="habitDetails.goal" type="number" />
+      <UFormGroup label="Goal" name='goal' class="w-full mb-2">
+        <UInput v-model="habitDetails.goal" type="number" placeholder=100 />
       </UFormGroup>
 
-      <UFormGroup label="Habit Period" name='period' class="w-full">
+      <UFormGroup label="Habit Period" name='period' class="w-full mb-2">
         <UInputMenu v-model="habitDetails.period" :options="HabitPeriods" placeholder="Select a duration" />
       </UFormGroup>
 
-      <UFormGroup label="Invite others (email-addresses, comma seperated)" name="users">
-        <UInput v-model="habitDetails.users" />
+      <UFormGroup label="Invite others (email-addresses, comma seperated)" name="users" class="mb-2">
+        <UInput v-model="habitDetails.users" placeholder="someone@example.com, another@example.com" />
       </UFormGroup>
 
-      <UButton type="submit" label="Add Habit" />
+      <div class="flex justify-center mt-4">
+        <UButton type="submit" label="Add Habit"
+          class="!bg-emerald-600 !text-white hover:!bg-emerald-700 transition-colors mx-auto" />
+      </div>
     </UForm>
 
   </UModal>

@@ -1,16 +1,15 @@
-import type { User } from "./user"
+export const HabitTypes = ["quraan", "dhikr", "nafl salaah", "sadaqah"] as const
+export type HabitType = typeof HabitTypes[number]
 
-export enum HabitType {
-  Quran = "Quraan",
-  Dhikr = "Dhikr",
-  NaflSalaah = "Nafl Salaah",
-  SunnahActs = "Sunnah Acts",
-  Sadaqah = "Sadaah"
-}
+export const HabitPeriods = ["daily", "weekly", "monthly"] as const
+export type HabitPeriod = typeof HabitPeriods[number]
 
 export interface Habit {
   id: number,
   title: string
-  type: HabitType
-  users: User[]
+  type: HabitType,
+  quantity: undefined
+  period: HabitPeriod,
+  users: string[],
+  completed: boolean
 }

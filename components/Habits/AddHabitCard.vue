@@ -1,44 +1,52 @@
 <script setup lang="ts">
 import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
-import { HabitType } from '~/types/habit'
 import type { User } from '~/types/user'
+import { type HabitType, HabitTypes, type HabitPeriod, HabitPeriods } from '~/types/habit'
+import { UInput } from '#components'
 
 const habitsStore = useHabitsStore()
 const openModal = ref(false)
 
 const schema = z.object({
   title: z.string(),
-  type: z.nativeEnum(HabitType),
+  type: z.string(),
+  period: z.enum(HabitPeriods),
+  goal: z.number(),
+  users: z.string()
+    .optional()
+    .transform(str => str ? str.split(',').map(email => email.trim()) : [])
+    .refine(emails => emails.every(email => z.string().email().safeParse(email).success), {
+      message: "One or more email addresses are invalid"
+    })
 })
-
-//users: z.array(z.string())
 
 type Schema = z.output<typeof schema>
 
-users: z.array(z.string())
 const habitDetails = reactive({
   title: undefined,
-  type: HabitType,
-  users: undefined
+  type: undefined,
+  period: undefined,
+  goal: undefined,
+  users: undefined,
 })
 
-let habitTypes = Object.values(HabitType)
-let selectedHabit = ref<HabitType | null>(null)
-
 const onSubmit = async (event: FormSubmitEvent<Schema>) => {
-  habitsStore.addProject(habitDetails)
+  habitsStore.addHabit(habitDetails)
   console.log('hello')
-  console.log(habitDetails)
 
   openModal.value = false
-  //projectDetails.name = undefined
-  //projectDetails.description = undefined
+  // reset modal
+  habitDetails.title = undefined
+  habitDetails.type = undefined
+  habitDetails.period = undefined
+  habitDetails.goal = undefined
+  habitDetails.users = undefined
 }
 </script>
 
 <template>
-  <UButton @click='openModal = true' color="gray" class="w-full h-36 flex items-center justify-center">
+  <UButton @click='openModal = true' color="white" class="w-full h-36 flex items-center justify-center">
     <UIcon name="i-material-symbols:add-2-rounded" class="w-5 h-5" />
   </UButton>
 
@@ -49,8 +57,20 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) => {
         <UInput v-model="habitDetails.title" />
       </UFormGroup>
 
-      <UFormGroup label="Habit Type" name='type' class="w-full">
-        <UInputMenu v-model="habitDetails.type" :options="habitTypes" placeholder="Select a type" />
+      <UFormGroup label="Type" name='type' class="w-full">
+        <UInputMenu v-model="habitDetails.type" :options="HabitTypes" placeholder="Select a type" />
+      </UFormGroup>
+
+      <UFormGroup label="Goal" name='goal' class="w-full">
+        <UInput v-model="habitDetails.goal" type="number" />
+      </UFormGroup>
+
+      <UFormGroup label="Habit Period" name='period' class="w-full">
+        <UInputMenu v-model="habitDetails.period" :options="HabitPeriods" placeholder="Select a duration" />
+      </UFormGroup>
+
+      <UFormGroup label="Invite others (email-addresses, comma seperated)" name="users">
+        <UInput v-model="habitDetails.users" />
       </UFormGroup>
 
       <UButton type="submit" label="Add Habit" />

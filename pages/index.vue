@@ -11,17 +11,17 @@ const logout = async () => {
   navigateTo('/login')
 }
 
-habitsStore.getProjects()
-
+onMounted(() => {
+  habitsStore.getHabits()
+})
 </script>
 <template>
   <h1>Welcome {{ user.user_metadata.firstname }} {{ user.user_metadata.lastname }}</h1>
   <UButton @click='logout' label="signout" />
-
+  <PushNotification/>
   <UContainer>
     <h1>Habits</h1>
     <HabitsAddHabitCard />
-    {{ habitsStore.projects }}
-    <HabitCard v-for="habit in habitsStore.projects" />
+    <HabitCard v-for="habit in habitsStore.habits" :habit="habit"/>
   </UContainer>
 </template>

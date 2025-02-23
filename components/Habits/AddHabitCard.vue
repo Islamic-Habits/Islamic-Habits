@@ -27,7 +27,7 @@ let habitTypes = Object.values(HabitType)
 let selectedHabit = ref<HabitType | null>(null)
 
 const onSubmit = async (event: FormSubmitEvent<Schema>) => {
-  habitsStore.addProject(habitDetails)
+  habitsStore.addHabit(habitDetails)  
   console.log('hello')
   console.log(habitDetails)
 
